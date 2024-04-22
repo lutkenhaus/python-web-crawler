@@ -4,15 +4,13 @@ from utils import excel_utils as excel, user_utils as user, time_utils as time
 
 listaProdutos = []
 listaUrls = excel.read_spreadsheet_as_a_list("lista_urls")
+allURLS = excel.read_spreadsheet_as_a_list("lista_urls")
 listaUrls = listaUrls[0]
-print("listaUrls: ")
-print(type(listaUrls))
 
 user.welcome()
-# while len(listaUrls) < 10:
 contador = 0
-while contador < 50:
-    time.sleep(4)
+while contador < 5:
+    time.sleep(1)
     url_atual = listaUrls.pop()
     resposta = requests.get(url_atual)
     html_tratado = BeautifulSoup(resposta.content, "html.parser")
@@ -26,6 +24,7 @@ while contador < 50:
         url_nova = link["href"]
         if "mercadolivre" in url_nova:
             listaUrls.append(url_nova)
+            allURLS.append(url_nova)
 
     # se a URL atual for uma página de produto
     if url_atual.find("lista") == -1:
@@ -40,4 +39,4 @@ while contador < 50:
     contador = contador + 1
 print("SALVANDO...")
 excel.save_new_spreadsheet(listaProdutos, "dados_coletados")
-# excel.append_to_existing_spreadsheet(listaUrls, "lista_urls")
+# excel.append_to_existing_spreadsheet(allURLS, "lista_urls")

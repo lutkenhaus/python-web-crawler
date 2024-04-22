@@ -8,4 +8,4 @@ def welcome():
     print(
         "\nO ponto de partida padrão é: " "https://lista.mercadolivre.com.br/cadeira" ""
     )
-    print("\nA busca será executada a cada 7 segundos...")
+    print("\nA busca será executada a cada 1 segundo...")
