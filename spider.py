@@ -11,10 +11,11 @@ STOP_CRITERIA = int(os.getenv("STOP_CRITERIA"))
 
 allURLS = []
 listaProdutos = []
-listaUrls = excel.read_spreadsheet_as_a_list("lista_urls")
-listaUrls = listaUrls[0]
+listaUrls = []
 
 user.welcome()
+listaUrls.append(user.get_initial_url())
+
 contador = 0
 while contador <= STOP_CRITERIA:
     url_atual = listaUrls.pop(0)
