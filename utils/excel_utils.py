@@ -15,7 +15,7 @@ def read_spreadsheet_as_a_list(filename):
 def append_to_existing_spreadsheet(lista, filename):
 
     dataframe = pd.DataFrame(data=lista)
-    df_existing_data = pd.read_excel(filename)
-    df_merged = df_existing_data.append(dataframe, ignore_index=True)
-    df_merged.to_excel(filename, index=False)
-    print("operação finalizada!")
+    df_existing_data = pd.read_excel("./dados/" + filename + ".xlsx", header=None)
+    df_merged = df_existing_data._append(dataframe, ignore_index=True)
+    df_merged.to_excel("./dados/" + filename + ".xlsx", index=False, header=None)
+    print("Operação finalizada!")

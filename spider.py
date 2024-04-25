@@ -9,15 +9,15 @@ TIME_BETWEEN_REQS = int(os.getenv("TIME_BETWEEN_REQUISITIONS"))
 STOP_CRITERIA = int(os.getenv("STOP_CRITERIA"))
 
 
+allURLS = []
 listaProdutos = []
 listaUrls = excel.read_spreadsheet_as_a_list("lista_urls")
-allURLS = excel.read_spreadsheet_as_a_list("lista_urls")
 listaUrls = listaUrls[0]
 
 user.welcome()
 contador = 0
 while contador <= STOP_CRITERIA:
-    url_atual = listaUrls.pop()
+    url_atual = listaUrls.pop(0)
     resposta = requests.get(url_atual)
     html_tratado = BeautifulSoup(resposta.content, "html.parser")
 
@@ -25,12 +25,19 @@ while contador <= STOP_CRITERIA:
         "a",
         class_="ui-search-item__group__element ui-search-link__title-card ui-search-link",
     )
+    recomendationLinks = html_tratado.find_all(
+        "a", class_="ui-recommendations-card__link"
+    )
 
     for link in produtosLinks:
         url_nova = link["href"]
         if "mercadolivre" in url_nova:
             listaUrls.append(url_nova)
-            allURLS.append(url_nova)
+
+    for link in recomendationLinks:
+        url_recomendada = link["href"]
+        if "mercadolivre" in url_nova:
+            listaUrls.append(url_recomendada)
 
     # se a URL atual for uma página de produto
     if url_atual.find("lista") == -1:
@@ -41,19 +48,14 @@ while contador <= STOP_CRITERIA:
         ).get_text()
         produto["url"] = url_atual
         listaProdutos.append(produto)
-        print(
-            "Documento coletado ["
-            + str(contador)
-            + "]: "
-            + "Nome: "
-            + produto["nome"]
-            + "Preço: R$"
-            + produto["preco"]
-        )
+        allURLS.append(produto["url"])
+        print("Documento coletado [" + str(contador) + "]: ")
+        print("Nome: " + produto["nome"])
+        print("Preço: R$" + produto["preco"])
         time.sleep(TIME_BETWEEN_REQS)
     contador = contador + 1
 # FIM do loop
 
 print("SALVANDO...")
 excel.save_new_spreadsheet(listaProdutos, "dados_coletados")
-# excel.append_to_existing_spreadsheet(allURLS, "lista_urls")
+excel.append_to_existing_spreadsheet(allURLS, "lista_urls")
