@@ -13,9 +13,9 @@ def welcome():
         "mercadolivre.com.br"
         ""
     )
-    print("\nO ponto de partida padrão é definido pelo usuário!")
-    print("\nA busca será executada a cada " + TIME_BETWEEN_REQS + " segundo...")
-    print("\nO critério de parada é " + STOP_CRITERIA + " itens...")
+    print(f"O ponto de partida padrão é definido pelo usuário!")
+    print(f"A busca será executada a cada {TIME_BETWEEN_REQS} segundo...")
+    print(f"O critério de parada é {STOP_CRITERIA} itens...")
     print("\n")
 
 
