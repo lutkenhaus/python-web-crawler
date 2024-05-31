@@ -7,7 +7,7 @@ from utils import excel_utils as excel, user_utils as user, time_utils as time, 
 
 load_dotenv()
 TIME_BETWEEN_REQS = int(os.getenv("TIME_BETWEEN_REQUISITIONS", "2"))
-STOP_CRITERIA = int(os.getenv("STOP_CRITERIA", "5"))
+STOP_CRITERIA = int(os.getenv("STOP_CRITERIA", "100"))
 
 allURLS = []
 listaProdutos = []

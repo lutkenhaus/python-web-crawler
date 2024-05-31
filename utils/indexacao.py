@@ -1,7 +1,5 @@
 from collections import defaultdict
-
 import nltk
-from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 from nltk.tokenize import word_tokenize
 
@@ -10,7 +8,7 @@ nltk.download('stopwords')
 
 
 def create_inverted_index(sentences):
-    stop_words = set(stopwords.words('english'))
+    stop_words = set(nltk.corpus.stopwords.words('portuguese'))
     ps = PorterStemmer()
 
     inverted_index = defaultdict(lambda: defaultdict(int))
