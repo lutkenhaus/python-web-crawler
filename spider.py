@@ -3,18 +3,19 @@ import os
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from utils import excel_utils as excel, user_utils as user, time_utils as time, indexacao as index
+from utils import excel_utils as excel, user_utils as user, time_utils as time, indexacao as index, recovery
 
 load_dotenv()
 TIME_BETWEEN_REQS = int(os.getenv("TIME_BETWEEN_REQUISITIONS", "2"))
-STOP_CRITERIA = int(os.getenv("STOP_CRITERIA", "100"))
+STOP_CRITERIA = int(os.getenv("STOP_CRITERIA", "5"))
 
 allURLS = []
 listaProdutos = []
 listaUrls = []
 
 user.welcome()
-listaUrls.append(user.get_initial_url())
+name_item = input("Digite o nome de um item: ")
+listaUrls.append(user.get_initial_url(name_item))
 
 contador = 0
 while contador <= STOP_CRITERIA:
@@ -69,3 +70,15 @@ print("SALVANDO...")
 print("Índice invertido salvo em 'inverted_index.json'")
 excel.save_new_spreadsheet(listaProdutos, "dados_coletados")
 excel.append_to_existing_spreadsheet(allURLS, "lista_urls")
+
+inverted_index_path = os.path.join("inverted_index.json")
+
+inverted_index = recovery.load_inverted_index(inverted_index_path)
+
+documents = listaProdutos
+
+user_query = name_item
+
+ranked_results = recovery.search_inverted_index(user_query, inverted_index)
+
+recovery.display_results(ranked_results, documents)
