@@ -1,5 +1,6 @@
 import os
-from dotenv import load_dotenv, dotenv_values
+
+from dotenv import load_dotenv
 
 load_dotenv()
 TIME_BETWEEN_REQS = os.getenv("TIME_BETWEEN_REQUISITIONS")
@@ -13,13 +14,13 @@ def welcome():
         "mercadolivre.com.br"
         ""
     )
-    print("\nO ponto de partida padrão é definido pelo usuário!")
-    print("\nA busca será executada a cada " + TIME_BETWEEN_REQS + " segundo...")
-    print("\nO critério de parada é " + STOP_CRITERIA + " itens...")
+    print(f"O ponto de partida padrão é definido pelo usuário!")
+    print(f"A busca será executada a cada {TIME_BETWEEN_REQS} segundo...")
+    print(f"O critério de parada é {STOP_CRITERIA} itens...")
     print("\n")
 
 
-def get_initial_url():
-    name_item = input("Digite o nome de um item: ")
+def get_initial_url(name_item):
     initial_url = "https://lista.mercadolivre.com.br/" + name_item
     return initial_url
+
